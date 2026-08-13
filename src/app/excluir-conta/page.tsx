@@ -147,8 +147,8 @@ export default function ExcluirContaPage() {
             vídeos anexados são removidos do nosso armazenamento junto.
           </LI>
           <LI>
-            <Term>Um comentário:</Term> toque e segure o comentário e escolha{" "}
-            <Term>Excluir</Term>. As respostas a ele saem junto.
+            <Term>Um comentário:</Term> toque em <Term>Excluir</Term>, logo
+            abaixo do seu próprio comentário. As respostas a ele saem junto.
           </LI>
           <LI>
             <Term>Uma confirmação ou reação:</Term> toque de novo no mesmo botão
