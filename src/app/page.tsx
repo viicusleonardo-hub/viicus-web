@@ -18,6 +18,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CONTROLLER } from "@/lib/legal";
 
 /* ---------------------------------- data --------------------------------- */
 
@@ -597,7 +598,7 @@ export default function Home() {
               <div className="grid content-start gap-3">
                 <p className="font-heading font-bold">Comunidade</p>
                 <a
-                  href="mailto:contato@viicus.com.br"
+                  href={`mailto:${CONTROLLER.email}`}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Fale com a gente

@@ -11,7 +11,7 @@ import {
   Term,
   UL,
 } from "@/components/legal";
-import { CONTROLLER, PRODUCT } from "@/lib/legal";
+import { BACKUP_RETENTION_DAYS, CONTROLLER, PRODUCT } from "@/lib/legal";
 
 export const metadata: Metadata = {
   title: "Excluir sua conta",
@@ -109,6 +109,14 @@ export default function ExcluirContaPage() {
               "Registros de acesso à aplicação",
               "Mantidos por 6 meses, por obrigação legal (Marco Civil da Internet, art. 15)",
             ],
+            ...(BACKUP_RETENTION_DAYS === null
+              ? []
+              : [
+                  [
+                    "Cópias de segurança",
+                    `Os dados apagados sobrevivem nas cópias de segurança do banco por até ${BACKUP_RETENTION_DAYS} dias — criptografados, sem uso na aplicação e descartados quando a cópia mais antiga expira`,
+                  ],
+                ]),
           ]}
         />
 
@@ -122,8 +130,56 @@ export default function ExcluirContaPage() {
         </Callout>
       </Section>
 
-      <Section id="alternativas" title="Talvez você não precise excluir">
-        <P>Se o incômodo for específico, há caminhos menos definitivos:</P>
+      <Section
+        id="dados-avulsos"
+        title="Apagar só uma parte, sem excluir a conta"
+      >
+        <P>
+          Excluir a conta é o caminho mais radical, e quase nunca é o
+          necessário. Tudo o que você publica pode ser apagado individualmente,
+          pelo aplicativo, a qualquer momento — e sem que a conta deixe de
+          existir:
+        </P>
+        <UL>
+          <LI>
+            <Term>Um registro que você criou:</Term> abra o registro e toque em{" "}
+            <Term>Excluir</Term>. Ele sai do mapa e do histórico, e as fotos e
+            vídeos anexados são removidos do nosso armazenamento junto.
+          </LI>
+          <LI>
+            <Term>Um comentário:</Term> toque e segure o comentário e escolha{" "}
+            <Term>Excluir</Term>. As respostas a ele saem junto.
+          </LI>
+          <LI>
+            <Term>Uma confirmação ou reação:</Term> toque de novo no mesmo botão
+            para desfazer.
+          </LI>
+          <LI>
+            <Term>Um bloqueio:</Term> desfaça em{" "}
+            <Term>Ajustes → Usuários bloqueados</Term>.
+          </LI>
+          <LI>
+            <Term>Seu nome, e-mail ou senha:</Term> editáveis na aba de conta —
+            trocar o nome de exibição muda como você aparece em tudo o que já
+            publicou.
+          </LI>
+        </UL>
+        <P>
+          Se você quiser apagar algum dado que não esteja nesta lista, escreva
+          para{" "}
+          <a
+            className="text-primary underline underline-offset-4"
+            href={`mailto:${CONTROLLER.dpoEmail}?subject=Exclus%C3%A3o%20de%20dados`}
+          >
+            {CONTROLLER.dpoEmail}
+          </a>{" "}
+          dizendo o que quer remover. A LGPD (art. 18) garante esse pedido, e
+          ele não obriga você a abrir mão da conta.
+        </P>
+      </Section>
+
+      <Section id="alternativas" title="Talvez você não precise excluir nada">
+        <P>Se o incômodo for específico, há caminhos ainda mais simples:</P>
         <UL>
           <LI>
             <Term>Notificações demais:</Term> desative os avisos nas
@@ -136,10 +192,6 @@ export default function ExcluirContaPage() {
           <LI>
             <Term>Alguém incomodando:</Term> bloqueie a pessoa — você deixa de
             ver o que ela publica.
-          </LI>
-          <LI>
-            <Term>Só quer mudar seus dados:</Term> nome, e-mail e senha são
-            editáveis na aba de conta.
           </LI>
         </UL>
       </Section>
