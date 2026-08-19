@@ -19,8 +19,8 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { WaitlistForm } from "@/components/waitlist-form";
 import { CONTROLLER } from "@/lib/legal";
+import { hasStoreLinks, STORES } from "@/lib/stores";
 import {
   hasLocale,
   localeNames,
@@ -228,7 +228,7 @@ export default async function Home() {
               {t.nav.howItWorks}
             </a>
           </nav>
-          <Button render={<a href="#lista" />} nativeButton={false}>
+          <Button render={<a href="#baixar" />} nativeButton={false}>
             {t.nav.cta}
             <ArrowRight />
           </Button>
@@ -282,7 +282,7 @@ export default async function Home() {
                 <Button
                   size="lg"
                   className="h-13 px-7 text-base shadow-lg shadow-primary/30"
-                  render={<a href="#lista" />}
+                  render={<a href="#baixar" />}
                   nativeButton={false}
                 >
                   {t.hero.ctaPrimary}
@@ -495,8 +495,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ------------------------------ lista ------------------------------ */}
-        <section id="lista" className="scroll-mt-16 px-4 pb-24 sm:px-6">
+        {/* ----------------------------- download ---------------------------- */}
+        <section id="baixar" className="scroll-mt-16 px-4 pb-24 sm:px-6">
           <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary via-primary to-chart-2 px-6 py-20 text-primary-foreground shadow-2xl shadow-primary/25 sm:px-12 md:py-24">
             <div aria-hidden className="pointer-events-none absolute inset-0">
               <div className="absolute -top-28 -right-20 size-96 rounded-full bg-white/15 blur-3xl" />
@@ -505,12 +505,45 @@ export default async function Home() {
             <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
               <Leaf className="size-10" />
               <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-                {t.waitlist.title}
+                {t.download.title}
               </h2>
               <p className="max-w-lg text-balance text-lg text-primary-foreground/85">
-                {t.waitlist.description}
+                {t.download.description}
               </p>
-              <WaitlistForm copy={t.waitlist} />
+              {/*
+                Enquanto o app não estiver publicado, `STORES` está vazio e
+                aqui sai uma frase, não um botão morto. Preencher os dois
+                endereços em `lib/stores.ts` transforma esta seção na página
+                de download de verdade, sem tocar no desenho.
+              */}
+              {hasStoreLinks ? (
+                <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+                  {STORES.appStore ? (
+                    <Button
+                      size="lg"
+                      className="h-13 rounded-xl bg-foreground px-7 text-base text-background shadow-md hover:bg-foreground/90"
+                      render={<a href={STORES.appStore} />}
+                      nativeButton={false}
+                    >
+                      {t.download.appStore}
+                    </Button>
+                  ) : null}
+                  {STORES.playStore ? (
+                    <Button
+                      size="lg"
+                      className="h-13 rounded-xl bg-foreground px-7 text-base text-background shadow-md hover:bg-foreground/90"
+                      render={<a href={STORES.playStore} />}
+                      nativeButton={false}
+                    >
+                      {t.download.playStore}
+                    </Button>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="mt-2 text-lg font-semibold">
+                  {t.download.comingSoon}
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -535,8 +568,8 @@ export default async function Home() {
                 <a href="#como-funciona" className="text-muted-foreground transition-colors hover:text-primary">
                   {t.nav.howItWorks}
                 </a>
-                <a href="#lista" className="text-muted-foreground transition-colors hover:text-primary">
-                  {t.footer.waitlist}
+                <a href="#baixar" className="text-muted-foreground transition-colors hover:text-primary">
+                  {t.footer.download}
                 </a>
               </div>
               <div className="grid content-start gap-3">

@@ -10,21 +10,21 @@ export const dictionary = {
   meta: {
     title: "Viicus — Sua região. Sua comunidade.",
     description:
-      "O Viicus conecta você a tudo o que acontece na sua região: avisos, eventos, comércio local e vizinhos de verdade. Entre para a lista de espera.",
+      "O Viicus conecta você a tudo o que acontece na sua região: avisos, eventos, comércio local e vizinhos de verdade.",
   },
   home: {
     nav: {
       features: "Recursos",
       howItWorks: "Como funciona",
-      cta: "Entrar na lista",
+      cta: "Baixar o app",
     },
     hero: {
-      badge: "Lançamento em breve — entre antes de todo mundo",
+      badge: "Lançamento em breve",
       titleStart: "Seu bairro está acontecendo",
       titleHighlight: "sem você",
       description:
         "Feiras, avisos, eventos, vizinhos, comércio local. O Viicus reúne tudo o que acontece na sua região em um único app — para você nunca mais ficar de fora.",
-      ctaPrimary: "Quero entrar primeiro",
+      ctaPrimary: "Baixar o app",
       ctaSecondary: "Ver o que ele faz",
       privacyNote: "Grátis, sem anúncios e sem venda de dados.",
       privacyLinkLabel: "Como tratamos suas informações",
@@ -131,20 +131,14 @@ export const dictionary = {
         },
       ],
     },
-    waitlist: {
-      title: "Seja o primeiro do seu bairro no Viicus",
+    download: {
+      title: "Leve o seu bairro no bolso",
       description:
-        "Vamos liberar o acesso por região, começando pelas listas mais movimentadas. Garanta seu lugar — leva 10 segundos.",
-      emailPlaceholder: "seu@email.com",
-      emailLabel: "Seu e-mail",
-      submit: "Entrar na lista",
-      note: "Sem spam. Só avisamos quando o Viicus chegar na sua região.",
-      successTitle: "Pronto, você está na lista.",
-      successNote:
-        "A gente escreve quando o Viicus abrir na sua região — e só para isso.",
-      errorInvalid: "Esse e-mail não parece válido. Confere?",
-      errorUnavailable:
-        "Não conseguimos registrar agora. Tente de novo em instantes.",
+        "Grátis, para Android e iPhone. Sem anúncios, sem venda de dados e sem feed de gente do outro lado da cidade.",
+      /** Sai no lugar dos botões enquanto `lib/stores.ts` estiver vazio. */
+      comingSoon: "Em breve na App Store e no Google Play.",
+      appStore: "Baixar na App Store",
+      playStore: "Baixar no Google Play",
     },
     footer: {
       tagline:
@@ -156,7 +150,7 @@ export const dictionary = {
       privacy: "Privacidade",
       terms: "Termos de uso",
       deleteAccount: "Excluir conta",
-      waitlist: "Lista de espera",
+      download: "Baixar o app",
       rights: "Todos os direitos reservados.",
       languagesLabel: "Idiomas",
     },

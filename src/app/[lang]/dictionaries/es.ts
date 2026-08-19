@@ -5,21 +5,21 @@ export const dictionary: Dictionary = {
   meta: {
     title: "Viicus — Tu zona. Tu comunidad.",
     description:
-      "Viicus te conecta con todo lo que pasa en tu zona: avisos, eventos, comercio local y vecinos de verdad. Únete a la lista de espera.",
+      "Viicus te conecta con todo lo que pasa en tu zona: avisos, eventos, comercio local y vecinos de verdad.",
   },
   home: {
     nav: {
       features: "Funciones",
       howItWorks: "Cómo funciona",
-      cta: "Unirme a la lista",
+      cta: "Descargar la app",
     },
     hero: {
-      badge: "Muy pronto — entra antes que todos",
+      badge: "Muy pronto",
       titleStart: "Tu barrio está pasando",
       titleHighlight: "sin ti",
       description:
         "Ferias, avisos, eventos, vecinos, comercio local. Viicus reúne todo lo que pasa en tu zona en una sola app — para que nunca más te quedes fuera.",
-      ctaPrimary: "Quiero entrar primero",
+      ctaPrimary: "Descargar la app",
       ctaSecondary: "Ver qué hace",
       privacyNote: "Gratis, sin anuncios y sin venta de datos.",
       privacyLinkLabel: "Cómo tratamos tu información",
@@ -127,20 +127,13 @@ export const dictionary: Dictionary = {
         },
       ],
     },
-    waitlist: {
-      title: "Sé el primero de tu barrio en Viicus",
+    download: {
+      title: "Lleva tu barrio en el bolsillo",
       description:
-        "Abriremos el acceso por zonas, empezando por las listas con más gente. Asegura tu lugar — toma 10 segundos.",
-      emailPlaceholder: "tu@email.com",
-      emailLabel: "Tu correo electrónico",
-      submit: "Unirme a la lista",
-      note: "Sin spam. Solo te avisamos cuando Viicus llegue a tu zona.",
-      successTitle: "Listo, ya estás en la lista.",
-      successNote:
-        "Te escribimos cuando Viicus abra en tu zona — y solo para eso.",
-      errorInvalid: "Ese correo no parece válido. ¿Lo revisas?",
-      errorUnavailable:
-        "No pudimos registrarte ahora. Inténtalo de nuevo en un momento.",
+        "Gratis, para Android y iPhone. Sin anuncios, sin venta de datos y sin contenido de gente del otro lado de la ciudad.",
+      comingSoon: "Muy pronto en la App Store y en Google Play.",
+      appStore: "Descargar en la App Store",
+      playStore: "Descargar en Google Play",
     },
     footer: {
       tagline:
@@ -152,7 +145,7 @@ export const dictionary: Dictionary = {
       privacy: "Privacidad",
       terms: "Términos de uso",
       deleteAccount: "Eliminar cuenta",
-      waitlist: "Lista de espera",
+      download: "Descargar la app",
       rights: "Todos los derechos reservados.",
       languagesLabel: "Idiomas",
     },

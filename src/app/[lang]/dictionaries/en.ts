@@ -5,21 +5,21 @@ export const dictionary: Dictionary = {
   meta: {
     title: "Viicus — Your area. Your community.",
     description:
-      "Viicus connects you to everything happening in your area: notices, events, local businesses, and real neighbors. Join the waitlist.",
+      "Viicus connects you to everything happening in your area: notices, events, local businesses, and real neighbors.",
   },
   home: {
     nav: {
       features: "Features",
       howItWorks: "How it works",
-      cta: "Join the list",
+      cta: "Get the app",
     },
     hero: {
-      badge: "Launching soon — get in before everyone else",
+      badge: "Launching soon",
       titleStart: "Your neighborhood is happening",
       titleHighlight: "without you",
       description:
         "Markets, notices, events, neighbors, local businesses. Viicus brings everything happening in your area into a single app — so you never miss out again.",
-      ctaPrimary: "I want in first",
+      ctaPrimary: "Get the app",
       ctaSecondary: "See what it does",
       privacyNote: "Free, no ads, and we never sell your data.",
       privacyLinkLabel: "How we handle your information",
@@ -127,19 +127,13 @@ export const dictionary: Dictionary = {
         },
       ],
     },
-    waitlist: {
-      title: "Be the first from your neighborhood on Viicus",
+    download: {
+      title: "Put your neighborhood in your pocket",
       description:
-        "We're opening access area by area, starting with the busiest lists. Save your spot — it takes 10 seconds.",
-      emailPlaceholder: "you@email.com",
-      emailLabel: "Your email",
-      submit: "Join the list",
-      note: "No spam. We'll only reach out when Viicus arrives in your area.",
-      successTitle: "You're on the list.",
-      successNote:
-        "We'll write when Viicus opens in your area — and for nothing else.",
-      errorInvalid: "That email doesn't look right. Mind checking it?",
-      errorUnavailable: "We couldn't sign you up just now. Try again shortly.",
+        "Free, for Android and iPhone. No ads, no data selling, and nothing from people across town.",
+      comingSoon: "Coming soon to the App Store and Google Play.",
+      appStore: "Download on the App Store",
+      playStore: "Get it on Google Play",
     },
     footer: {
       tagline:
@@ -151,7 +145,7 @@ export const dictionary: Dictionary = {
       privacy: "Privacy",
       terms: "Terms of use",
       deleteAccount: "Delete account",
-      waitlist: "Waitlist",
+      download: "Get the app",
       rights: "All rights reserved.",
       languagesLabel: "Languages",
     },
