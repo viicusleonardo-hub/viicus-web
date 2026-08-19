@@ -15,14 +15,32 @@ export const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
 
 export const sentryEnabled = Boolean(sentryDsn);
 
+/**
+ * `VERCEL_ENV` → o vocabulário comum aos quatro repositórios.
+ *
+ * Exportada para o teste: é uma tabela de tradução de três linhas, e tabela de
+ * tradução errada não quebra nada — só faz um filtro devolver menos do que
+ * deveria, que é o pior jeito de descobrir.
+ */
+export function sentryEnvironmentFor(vercelEnv: string | undefined): string {
+  if (vercelEnv === 'production') return 'production';
+  if (vercelEnv === 'preview') return 'staging';
+  return 'development';
+}
+
 export const sharedSentryOptions = {
   dsn: sentryDsn,
 
   /**
-   * A Vercel expõe o ambiente do deploy; sem ela, desenvolvimento. É o que
-   * separa erro de pré-visualização de erro de quem está no site de verdade.
+   * O ambiente como o painel o enxerga — TRADUZIDO do vocabulário da Vercel.
+   *
+   * Ela chama de `preview` o que o resto do sistema chama de `staging`, e um
+   * painel em que a mesma falha aparece como `staging` vindo do aplicativo e
+   * `preview` vindo do site não se filtra: você precisaria lembrar de marcar
+   * as duas caixas, e um dia não lembraria. O eixo é um só nos quatro
+   * repositórios — `development`, `staging`, `production`.
    */
-  environment: process.env.VERCEL_ENV ?? 'development',
+  environment: sentryEnvironmentFor(process.env.VERCEL_ENV),
 
   /**
    * O sha do commit que a Vercel injeta. É o que transforma "quebrou" em
@@ -42,5 +60,5 @@ export const sharedSentryOptions = {
    * publicação, um compartilhamento) e span é cobrado por evento: 10% conta a
    * mesma história por um décimo do preço.
    */
-  tracesSampleRate: process.env.VERCEL_ENV === 'production' ? 0.1 : 1,
+  tracesSampleRate: sentryEnvironmentFor(process.env.VERCEL_ENV) === 'production' ? 0.1 : 1,
 } as const;
