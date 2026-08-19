@@ -281,3 +281,92 @@ contam a história melhor).
    aparelho real.
 7. Só então pedir a análise de produção.
 </content>
+
+---
+
+## 6. Descrições da ficha
+
+Escritas a partir do que as telas **entregam**, não do que a landing promete —
+o site fala de feiras, eventos e comércio local, que o aplicativo ainda não
+tem. Ficha que descreve recurso inexistente reprova por representação
+enganosa, e é o revisor quem confere.
+
+Duas frases foram postas de propósito e não devem sair numa revisão de copy:
+
+- **"não é um canal oficial de nenhuma prefeitura"** — é a proteção contra a
+  reprovação por vínculo oficial sugerido, o mesmo motivo pelo qual a arte não
+  pode ter brasão de município.
+- **"não substitui" os números de emergência** — um app que lista 190 e 193 na
+  tela inicial precisa dizer que não os substitui.
+
+### Descrição breve (limite 80)
+
+```
+Relate e acompanhe o que acontece na sua rua: buracos, alagamentos e alertas.
+```
+
+### Descrição completa (limite 4000)
+
+```
+O Viicus mostra o que está acontecendo em volta de você — e dá um caminho para
+registrar o que precisa ser resolvido.
+
+O QUE VOCÊ PODE REGISTRAR
+
+Buraco na via, calçada danificada, rua sem luz, semáforo com defeito, lixo e
+entulho, esgoto a céu aberto, árvore com risco de queda, alagamento, vendaval,
+deslizamento, falta de água, acidente de trânsito, incêndio, perturbação do
+sossego, mau atendimento na saúde, falta de medicamento e problema na escola.
+
+Leva menos de um minuto: escolha o tipo, descreva, marque o ponto no mapa e
+anexe foto ou vídeo se ajudar.
+
+COMO FUNCIONA
+
+Tudo é organizado por proximidade. O mapa e o feed mostram o que está perto de
+você — nada de conteúdo de gente do outro lado da cidade.
+
+Quando um vizinho registra algo que você também está vendo, você confirma. A
+confirmação não é curtida: ela diz que mais alguém no local viu a mesma coisa,
+e é isso que separa um relato solto de um problema reconhecido pela vizinhança.
+
+Cada registro recebe um número de protocolo, que fica guardado na sua conta
+para você acompanhar o caso — e uma linha do tempo mostra tudo o que aconteceu
+com ele, incluindo quando e por que uma decisão foi tomada.
+
+ALERTAS DA SUA REGIÃO
+
+Alagamento a caminho, deslizamento, interdição. Alertas graves chegam como
+notificação no celular, mesmo com o app fechado, e só valem para quem está na
+área afetada.
+
+MEUS LUGARES
+
+Salve até três lugares que importam — casa, trabalho, a escola das crianças — e
+receba aviso quando algo novo aparecer perto deles, mesmo que você esteja longe
+naquele momento.
+
+PRIVACIDADE E CUIDADO COM O QUE É PUBLICADO
+
+Relatos de segurança não vão para o mapa público. Eles ficam visíveis só para
+quem os registrou, porque acusação errada no mapa tem custo real para quem mora
+ali.
+
+Ao escrever, o app avisa se você incluiu dado pessoal — CPF, telefone, e-mail —
+antes de enviar.
+
+Você pode denunciar, ocultar e bloquear conteúdo, e apagar sua conta a qualquer
+momento pelo próprio app.
+
+Sem anúncios. Sem venda de dados. Sua localização é usada para mostrar o que
+está perto e para situar o que você registra, e nada mais.
+
+O QUE O VIICUS NÃO É
+
+O Viicus não é um canal oficial de nenhuma prefeitura, órgão público ou
+autoridade, e não tem vínculo com nenhum deles. É um aplicativo de moradores.
+
+Em emergência, ligue para os números de urgência — 190 para polícia, 193 para
+bombeiros, 192 para o SAMU. O app mostra esses números na tela inicial, mas não
+substitui nenhum deles.
+```
