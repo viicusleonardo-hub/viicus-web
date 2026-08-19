@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...menos o exemplo: ele não tem valor nenhum dentro, e é onde se documenta
+# QUAIS variáveis existem. Fora do git, ninguém que clonar o repositório
+# descobre que elas existem — que é o oposto do que um exemplo serve.
+!.env.example
 
 # vercel
 .vercel
