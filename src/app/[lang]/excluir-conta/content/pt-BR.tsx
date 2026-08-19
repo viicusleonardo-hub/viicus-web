@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -13,14 +12,15 @@ import {
 } from "@/components/legal";
 import { BACKUP_RETENTION_DAYS, CONTROLLER, PRODUCT } from "@/lib/legal";
 
-export const metadata: Metadata = {
+export const meta = {
   title: "Excluir sua conta",
   description:
     "Como excluir sua conta do Viicus, o que é apagado, o que permanece e por quanto tempo.",
 };
 
 /**
- * Página de exclusão de conta.
+ * Página de exclusão de conta (pt-BR — o texto de referência; `en.tsx` e
+ * `es.tsx` são traduções dele e devem mudar junto).
  *
  * Existe por exigência da Google Play — apps com conta precisam de uma URL
  * pública, acessível SEM login e SEM instalar o aplicativo, que explique como
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
  * vizinho", de `features/community/author-name`) de propósito: quem leu uma
  * coisa e fez a outra não pode encontrar duas versões do mesmo fato.
  */
-export default function ExcluirContaPage() {
+export default function Content() {
   return (
     <LegalPage
       title="Excluir sua conta"

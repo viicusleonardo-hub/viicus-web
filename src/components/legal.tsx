@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowLeft, Leaf } from "lucide-react";
 
 import { CONTROLLER, LAST_UPDATED } from "@/lib/legal";
+import { formatDate, localePath } from "@/lib/i18n";
+import { getDictionary, getLocale } from "@/app/[lang]/dictionaries";
 
 /**
  * Casca das páginas legais.
@@ -10,6 +12,10 @@ import { CONTROLLER, LAST_UPDATED } from "@/lib/legal";
  * texto corrido é feita à mão pelos componentes abaixo. Eles existem para que
  * as três páginas não repitam as mesmas classes — e para que mudar o ritmo do
  * texto seja uma edição, não três.
+ *
+ * Os textos da casca (Voltar, Última atualização, rodapé) vêm do dicionário do
+ * idioma atual — o locale é lido de `next/root-params`, então o conteúdo das
+ * páginas não precisa repassá-lo por props.
  */
 
 type LegalPageProps = {
@@ -18,24 +24,27 @@ type LegalPageProps = {
   children: React.ReactNode;
 };
 
-export function LegalPage({ title, intro, children }: LegalPageProps) {
+export async function LegalPage({ title, intro, children }: LegalPageProps) {
+  const locale = await getLocale();
+  const { legalShell: t } = await getDictionary();
+
   return (
     <div className="flex min-h-full flex-col">
       <header className="border-b border-border/60">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-5 sm:px-6">
           <Link
-            href="/"
+            href={localePath(locale)}
             className="inline-flex items-center gap-2 font-heading text-lg font-bold tracking-tight"
           >
             <Leaf className="size-5 text-primary" />
             Viicus
           </Link>
           <Link
-            href="/"
+            href={localePath(locale)}
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             <ArrowLeft className="size-4" />
-            Voltar
+            {t.back}
           </Link>
         </div>
       </header>
@@ -48,7 +57,7 @@ export function LegalPage({ title, intro, children }: LegalPageProps) {
           {intro}
         </p>
         <p className="mt-6 text-sm text-muted-foreground">
-          Última atualização: {LAST_UPDATED}
+          {t.lastUpdatedLabel}: {formatDate(locale, LAST_UPDATED)}
         </p>
 
         <div className="mt-12">{children}</div>
@@ -57,20 +66,29 @@ export function LegalPage({ title, intro, children }: LegalPageProps) {
       <footer className="border-t border-border/60 bg-muted/40">
         <div className="mx-auto w-full max-w-3xl px-4 py-8 text-sm text-muted-foreground sm:px-6">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href="/privacidade" className="transition-colors hover:text-primary">
-              Privacidade
+            <Link
+              href={localePath(locale, "/privacidade")}
+              className="transition-colors hover:text-primary"
+            >
+              {t.privacy}
             </Link>
-            <Link href="/termos" className="transition-colors hover:text-primary">
-              Termos de uso
+            <Link
+              href={localePath(locale, "/termos")}
+              className="transition-colors hover:text-primary"
+            >
+              {t.terms}
             </Link>
-            <Link href="/excluir-conta" className="transition-colors hover:text-primary">
-              Excluir conta
+            <Link
+              href={localePath(locale, "/excluir-conta")}
+              className="transition-colors hover:text-primary"
+            >
+              {t.deleteAccount}
             </Link>
             <a
               href={`mailto:${CONTROLLER.email}`}
               className="transition-colors hover:text-primary"
             >
-              Fale com a gente
+              {t.contact}
             </a>
           </div>
           <p className="mt-6">© {new Date().getFullYear()} Viicus.</p>
@@ -170,28 +188,32 @@ export function Table({
 
 /**
  * Identificação do controlador. Só imprime o que estiver preenchido em
- * `CONTROLLER` — ver o comentário de lá sobre os campos pendentes.
+ * `CONTROLLER` — ver o comentário de lá sobre os campos pendentes. Os rótulos
+ * vêm do dicionário do idioma atual.
  */
-export function ControllerIdentity() {
-  const { legalName, taxId, address, email, dpoEmail } = CONTROLLER;
+export async function ControllerIdentity() {
+  const { legalName, taxId, address, email, dpoEmail, dpoName } = CONTROLLER;
+  const { legalShell } = await getDictionary();
+  const t = legalShell.controller;
 
   return (
     <UL>
       {legalName ? (
         <LI>
-          <Term>Controlador:</Term> {legalName}
-          {taxId ? `, inscrita no CNPJ sob o nº ${taxId}` : null}
-          {address ? `, com sede em ${address}` : null}.
+          <Term>{t.label}</Term> {legalName}
+          {taxId ? `${t.taxIdPrefix}${taxId}` : null}
+          {address ? `${t.addressPrefix}${address}` : null}.
         </LI>
       ) : null}
       <LI>
-        <Term>Contato:</Term>{" "}
+        <Term>{t.contactLabel}</Term>{" "}
         <a className="text-primary underline underline-offset-4" href={`mailto:${email}`}>
           {email}
         </a>
       </LI>
       <LI>
-        <Term>Encarregado pelo tratamento de dados:</Term>{" "}
+        <Term>{t.dpoLabel}</Term>{" "}
+        {dpoName ? `${dpoName}${t.dpoNameSeparator}` : null}
         <a className="text-primary underline underline-offset-4" href={`mailto:${dpoEmail}`}>
           {dpoEmail}
         </a>

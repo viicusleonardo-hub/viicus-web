@@ -34,6 +34,22 @@ export const CONTROLLER = {
    * endereço acima; o que a lei pede é que exista um canal anunciado.
    */
   dpoEmail: "privacidade@viicus.com",
+  /**
+   * TODO: nome de quem foi indicado encarregado.
+   *
+   * A LGPD não exige profissional certificado nem pessoa dedicada — o próprio
+   * controlador pode se indicar, e numa operação pequena é o normal. O que a
+   * ANPD espera ver publicado é **identidade e contato**, não só o endereço de
+   * e-mail: por isso o nome aqui e o canal logo acima.
+   *
+   * Existe a dispensa da Resolução CD/ANPD nº 2/2022 para agente de pequeno
+   * porte (canal de comunicação basta, sem indicar encarregado), mas ela não
+   * alcança tratamento de ALTO RISCO — e um dos critérios específicos é
+   * decisão tomada unicamente com base em tratamento automatizado, que é
+   * exatamente a triagem por LLM recusando o relato de alguém. Vazio, a
+   * página imprime só o canal; é a postura mais frágil das duas.
+   */
+  dpoName: "",
 } as const;
 
 /**
@@ -55,10 +71,11 @@ export const BACKUP_RETENTION_DAYS: number | null = null;
 export const PRODUCT = "Viicus";
 
 /**
- * Data da última revisão dos textos legais.
+ * Data da última revisão dos textos legais, em ISO (`aaaa-mm-dd`).
  *
- * Atualize quando mudar o conteúdo de verdade — a data é o que permite a
- * alguém saber se leu a versão vigente, então mexer nela por mudança de
- * formatação corrói exatamente isso.
+ * É ISO, e não texto pronto, porque a mesma data é exibida por extenso em cada
+ * idioma do site (`formatDate` em `lib/i18n.ts`). Atualize quando mudar o
+ * conteúdo de verdade — a data é o que permite a alguém saber se leu a versão
+ * vigente, então mexer nela por mudança de formatação corrói exatamente isso.
  */
-export const LAST_UPDATED = "13 de agosto de 2026";
+export const LAST_UPDATED = "2026-08-13";

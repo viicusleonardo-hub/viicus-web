@@ -11,9 +11,16 @@ As páginas públicas que o formulário exige já existem neste repositório:
 
 | exigência | URL |
 | --- | --- |
-| política de privacidade | `https://viicus.com.br/privacidade` |
-| termos de uso | `https://viicus.com.br/termos` |
-| exclusão de conta (URL obrigatória) | `https://viicus.com.br/excluir-conta` |
+| política de privacidade | `https://viicus.com/privacidade` |
+| termos de uso | `https://viicus.com/termos` |
+| exclusão de conta (URL obrigatória) | `https://viicus.com/excluir-conta` |
+
+> **O domínio é `viicus.com`, não `.com.br`.** Este documento apontava para o
+> `.com.br` e as três URLs estavam mortas: o domínio está registrado no
+> registro.br mas não publica registro `A` nenhum, e ainda declara MX nulo
+> (`MX 0 .`, RFC 7505). Quem serve o site é a Vercel, no `.com`. URL de
+> exclusão de conta que não abre é reprovação direta — a Google testa esse
+> link.
 
 > **Antes de qualquer coisa**: `src/lib/legal.ts` tem três campos vazios —
 > razão social, CNPJ e endereço. Política sem controlador identificado é
@@ -146,7 +153,7 @@ O app exige login para tudo além da leitura, então a Google precisa de uma
 conta funcional. Preencha "All functionality is restricted" e informe:
 
 ```
-Usuário: revisor@viicus.com.br      [criar antes de submeter]
+Usuário: revisor@viicus.com          [criar antes de submeter]
 Senha:   [definir]
 
 Instruções:
@@ -160,6 +167,19 @@ Instruções:
 
 O passo 2 não é detalhe: um revisor testando fora da área coberta vê um app
 vazio e conclui que está quebrado.
+
+**Como criar a conta, e por que ela funciona sem o código de e-mail.** O
+cadastro pede um código enviado por e-mail, mas o LOGIN é e-mail + senha
+(`POST /auth/login`, sem OTP). Então basta cadastrar a conta uma vez, no app
+apontando para **produção**, recebendo o código no alias `revisor@viicus.com`
+— dali em diante o revisor só precisa do par usuário/senha, e a caixa de
+entrada deixa de estar no caminho crítico da análise.
+
+⚠️ **A instrução do passo 2 pressupõe conteúdo em São Paulo, e hoje não há.**
+`GET /feed` em produção devolve `items: []`: o banco está vazio. Um revisor
+seguindo esses passos à risca vê exatamente a tela que o passo 2 promete
+evitar. Semear a região de lançamento é pré-requisito da submissão, não
+enfeite de lançamento.
 
 ---
 

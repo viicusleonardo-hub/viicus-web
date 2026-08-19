@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
   ArrowRight,
   Bell,
@@ -17,64 +19,33 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { WaitlistForm } from "@/components/waitlist-form";
 import { CONTROLLER } from "@/lib/legal";
+import {
+  hasLocale,
+  localeNames,
+  localePath,
+  locales,
+  pageAlternates,
+  type Locale,
+} from "@/lib/i18n";
+import { getDictionary, getLocale } from "./dictionaries";
+import type { Dictionary } from "./dictionaries/pt-BR";
+
+type HomeDict = Dictionary["home"];
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+  // Título e descrição vêm do layout; a página só liga as versões de idioma.
+  return { alternates: pageAlternates(lang, "/") };
+}
 
 /* ---------------------------------- data --------------------------------- */
 
-const tickerItems = [
-  "Feiras de bairro",
-  "Avisos da vizinhança",
-  "Eventos locais",
-  "Comércio da região",
-  "Achados e perdidos",
-  "Caronas",
-  "Grupos e clubes",
-  "Doações",
-  "Indicação de serviços",
-];
-
-const pains = [
-  {
-    icon: Megaphone,
-    title: "O aviso que você não viu",
-    description:
-      "A rua vai fechar, a água vai faltar, a vacinação chegou no posto — e você só descobre quando já era.",
-  },
-  {
-    icon: CalendarDays,
-    title: "O evento que você perdeu",
-    description:
-      "A feira, o festival, a reunião de moradores. Aconteceu a duas quadras de você e ninguém te contou.",
-  },
-  {
-    icon: Users,
-    title: "Os vizinhos que você não conhece",
-    description:
-      "Gente boa, com os mesmos interesses que você, morando na mesma rua — e vocês nunca se cruzaram.",
-  },
-];
-
-const steps = [
-  {
-    number: "1",
-    title: "Escolha sua região",
-    description:
-      "Diga onde você mora e o Viicus monta o seu feed com o que importa num raio de poucos quilômetros.",
-  },
-  {
-    number: "2",
-    title: "Siga o que faz sentido",
-    description:
-      "Avisos, eventos, grupos, comércio local. Você escolhe o que quer acompanhar — sem ruído.",
-  },
-  {
-    number: "3",
-    title: "Viva o seu bairro",
-    description:
-      "Chegue nos eventos, conheça vizinhos, apoie o comércio da esquina. Sua região, de verdade.",
-  },
-];
+const painIcons = [Megaphone, CalendarDays, Users];
 
 const avatarColors = [
   "bg-chart-1",
@@ -86,9 +57,9 @@ const avatarColors = [
 
 /* -------------------------------- helpers -------------------------------- */
 
-function Logo() {
+function Logo({ href }: { href: string }) {
   return (
-    <Link href="/" className="flex items-center gap-2.5">
+    <Link href={href} className="flex items-center gap-2.5">
       <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-chart-2 font-heading text-lg font-bold text-primary-foreground shadow-sm">
         V
       </span>
@@ -116,7 +87,7 @@ function AvatarStack({ initials }: { initials: string[] }) {
 
 /* ----------------------------- phone mockup ------------------------------ */
 
-function PhoneMockup() {
+function PhoneMockup({ t }: { t: HomeDict["phone"] }) {
   return (
     <div className="relative mx-auto w-fit">
       {/* glow atrás do celular */}
@@ -136,11 +107,11 @@ function PhoneMockup() {
         <div className="flex items-center justify-between px-5 pt-4 pb-3">
           <div>
             <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-              Sua região
+              {t.regionLabel}
             </p>
             <p className="flex items-center gap-1 font-heading text-sm font-bold">
               <MapPin className="size-3.5 text-primary" />
-              Jardim Primavera
+              {t.regionName}
             </p>
           </div>
           <span className="relative flex size-8 items-center justify-center rounded-full bg-secondary">
@@ -160,12 +131,10 @@ function PhoneMockup() {
                 <Megaphone className="size-3.5 text-primary" />
               </span>
               <p className="text-[11px] font-semibold text-primary">
-                Aviso do bairro
+                {t.noticeTag}
               </p>
             </div>
-            <p className="mt-2 text-xs leading-relaxed">
-              Feira de sábado confirmada na praça central, das 9h às 14h 🍉
-            </p>
+            <p className="mt-2 text-xs leading-relaxed">{t.noticeText}</p>
           </div>
 
           {/* post */}
@@ -175,16 +144,16 @@ function PhoneMockup() {
                 RM
               </span>
               <div>
-                <p className="text-[11px] font-semibold">Rafa Martins</p>
-                <p className="text-[10px] text-muted-foreground">a 400 m de você</p>
+                <p className="text-[11px] font-semibold">{t.postAuthor}</p>
+                <p className="text-[10px] text-muted-foreground">
+                  {t.postDistance}
+                </p>
               </div>
             </div>
-            <p className="mt-2 text-xs leading-relaxed">
-              Alguém indica eletricista de confiança aqui na região?
-            </p>
+            <p className="mt-2 text-xs leading-relaxed">{t.postText}</p>
             <div className="mt-2.5 flex items-center gap-4 text-[10px] text-muted-foreground">
               <span className="flex items-center gap-1">
-                <MessageCircle className="size-3" /> 12 respostas
+                <MessageCircle className="size-3" /> {t.postReplies}
               </span>
               <span className="flex items-center gap-1">
                 <Heart className="size-3" /> 8
@@ -196,15 +165,15 @@ function PhoneMockup() {
           <div className="flex items-center gap-3 rounded-2xl border bg-card p-3.5 shadow-sm">
             <div className="flex size-11 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary font-heading">
               <span className="text-[9px] font-semibold uppercase text-secondary-foreground">
-                sáb
+                {t.eventDay}
               </span>
-              <span className="text-sm font-bold text-secondary-foreground">16</span>
+              <span className="text-sm font-bold text-secondary-foreground">
+                16
+              </span>
             </div>
             <div>
-              <p className="text-xs font-semibold">Cinema na praça</p>
-              <p className="text-[10px] text-muted-foreground">
-                19h · Praça das Acácias · 43 confirmados
-              </p>
+              <p className="text-xs font-semibold">{t.eventTitle}</p>
+              <p className="text-[10px] text-muted-foreground">{t.eventMeta}</p>
             </div>
           </div>
         </div>
@@ -215,8 +184,8 @@ function PhoneMockup() {
         <div className="flex items-center gap-2.5">
           <AvatarStack initials={["JP", "Lu", "Th"]} />
           <div>
-            <p className="text-xs font-bold">+18 vizinhos</p>
-            <p className="text-[10px] text-muted-foreground">entraram hoje</p>
+            <p className="text-xs font-bold">{t.joinedCount}</p>
+            <p className="text-[10px] text-muted-foreground">{t.joinedToday}</p>
           </div>
         </div>
       </div>
@@ -227,9 +196,9 @@ function PhoneMockup() {
             <Store className="size-4 text-primary" />
           </span>
           <div>
-            <p className="text-xs font-bold">Comércio local</p>
+            <p className="text-xs font-bold">{t.commerceTitle}</p>
             <p className="text-[10px] text-muted-foreground">
-              27 lojas na sua região
+              {t.commerceSubtitle}
             </p>
           </div>
         </div>
@@ -240,23 +209,27 @@ function PhoneMockup() {
 
 /* --------------------------------- page ---------------------------------- */
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const t = dict.home;
+
   return (
     <div className="flex min-h-svh flex-col overflow-x-clip">
       {/* ------------------------------ header ----------------------------- */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Logo />
+          <Logo href={localePath(locale)} />
           <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
             <a href="#recursos" className="transition-colors hover:text-primary">
-              Recursos
+              {t.nav.features}
             </a>
             <a href="#como-funciona" className="transition-colors hover:text-primary">
-              Como funciona
+              {t.nav.howItWorks}
             </a>
           </nav>
           <Button render={<a href="#lista" />} nativeButton={false}>
-            Entrar na lista
+            {t.nav.cta}
             <ArrowRight />
           </Button>
         </div>
@@ -274,14 +247,14 @@ export default function Home() {
             <div className="flex flex-col items-start gap-6">
               <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
                 <Sparkles className="size-4" />
-                Lançamento em breve — entre antes de todo mundo
+                {t.hero.badge}
               </span>
 
               <h1 className="text-balance text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl xl:text-[4.2rem]">
-                Seu bairro está acontecendo{" "}
+                {t.hero.titleStart}{" "}
                 <span className="relative whitespace-nowrap">
                   <span className="bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
-                    sem você
+                    {t.hero.titleHighlight}
                   </span>
                   <svg
                     aria-hidden
@@ -302,9 +275,7 @@ export default function Home() {
               </h1>
 
               <p className="max-w-lg text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                Feiras, avisos, eventos, vizinhos, comércio local. O Viicus
-                reúne tudo o que acontece na sua região em um único app — para
-                você nunca mais ficar de fora.
+                {t.hero.description}
               </p>
 
               <div className="flex flex-wrap items-center gap-3">
@@ -314,7 +285,7 @@ export default function Home() {
                   render={<a href="#lista" />}
                   nativeButton={false}
                 >
-                  Quero entrar primeiro
+                  {t.hero.ctaPrimary}
                   <ArrowRight />
                 </Button>
                 <Button
@@ -324,34 +295,34 @@ export default function Home() {
                   render={<a href="#recursos" />}
                   nativeButton={false}
                 >
-                  Ver o que ele faz
+                  {t.hero.ctaSecondary}
                 </Button>
               </div>
 
               <p className="mt-2 text-sm text-muted-foreground">
-                Grátis, sem anúncios e sem venda de dados.{" "}
+                {t.hero.privacyNote}{" "}
                 <Link
-                  href="/privacidade"
+                  href={localePath(locale, "/privacidade")}
                   className="underline underline-offset-4 transition-colors hover:text-primary"
                 >
-                  Como tratamos suas informações
+                  {t.hero.privacyLinkLabel}
                 </Link>
                 .
               </p>
             </div>
 
-            <PhoneMockup />
+            <PhoneMockup t={t.phone} />
           </div>
         </section>
 
         {/* ----------------------------- ticker ----------------------------- */}
         <section
-          aria-label="O que você encontra no Viicus"
+          aria-label={t.ticker.label}
           className="border-y border-border/60 bg-muted/50 py-4"
         >
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <div className="flex w-max animate-[marquee_32s_linear_infinite] gap-3 pr-3">
-              {[...tickerItems, ...tickerItems].map((item, i) => (
+              {[...t.ticker.items, ...t.ticker.items].map((item, i) => (
                 <span
                   key={`${item}-${i}`}
                   className="flex items-center gap-2 whitespace-nowrap rounded-full border border-border/60 bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground"
@@ -369,34 +340,34 @@ export default function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6">
             <div className="mb-14 max-w-2xl">
               <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">
-                A vida real está a 500 metros
+                {t.pains.eyebrow}
               </p>
               <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-                Quanta coisa já passou batido por você este mês?
+                {t.pains.title}
               </h2>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
-              {pains.map((pain) => (
-                <div
-                  key={pain.title}
-                  className="rounded-2xl border border-background/15 bg-background/5 p-7 backdrop-blur transition-colors hover:bg-background/10"
-                >
-                  <span className="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-primary/20 text-primary">
-                    <pain.icon className="size-6" />
-                  </span>
-                  <h3 className="mb-2.5 text-lg font-bold">{pain.title}</h3>
-                  <p className="leading-relaxed text-background/70">
-                    {pain.description}
-                  </p>
-                </div>
-              ))}
+              {t.pains.items.map((pain, i) => {
+                const PainIcon = painIcons[i];
+                return (
+                  <div
+                    key={pain.title}
+                    className="rounded-2xl border border-background/15 bg-background/5 p-7 backdrop-blur transition-colors hover:bg-background/10"
+                  >
+                    <span className="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-primary/20 text-primary">
+                      <PainIcon className="size-6" />
+                    </span>
+                    <h3 className="mb-2.5 text-lg font-bold">{pain.title}</h3>
+                    <p className="leading-relaxed text-background/70">
+                      {pain.description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
             <p className="mt-12 max-w-2xl text-lg text-background/80">
-              Não é culpa sua. A informação do seu bairro está espalhada em mil
-              grupos, murais e conversas.{" "}
-              <strong className="text-primary">
-                O Viicus junta tudo em um lugar só.
-              </strong>
+              {t.pains.closingText}{" "}
+              <strong className="text-primary">{t.pains.closingStrong}</strong>
             </p>
           </div>
         </section>
@@ -406,10 +377,10 @@ export default function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6">
             <div className="mb-14 max-w-2xl">
               <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">
-                Recursos
+                {t.features.eyebrow}
               </p>
               <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-                Um app. O bairro inteiro.
+                {t.features.title}
               </h2>
             </div>
 
@@ -422,25 +393,21 @@ export default function Home() {
                     <MapPin className="size-6" />
                   </span>
                   <h3 className="mb-2.5 text-2xl font-bold">
-                    Feed da sua região
+                    {t.features.feed.title}
                   </h3>
                   <p className="leading-relaxed text-muted-foreground">
-                    Tudo o que acontece num raio de poucos quilômetros, em
-                    ordem do que importa: avisos urgentes primeiro, novidades
-                    depois. Zero conteúdo de gente do outro lado da cidade.
+                    {t.features.feed.description}
                   </p>
                 </div>
                 <div className="mt-8 flex flex-wrap gap-2">
-                  {["Avisos", "Eventos", "Vizinhos", "Comércio", "Grupos"].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-primary/10 px-3.5 py-1.5 text-sm font-medium text-primary"
-                      >
-                        {tag}
-                      </span>
-                    )
-                  )}
+                  {t.features.feed.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-primary/10 px-3.5 py-1.5 text-sm font-medium text-primary"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -450,11 +417,10 @@ export default function Home() {
                   <Bell className="size-6" />
                 </span>
                 <h3 className="mb-2.5 text-xl font-bold">
-                  Avisos que chegam antes
+                  {t.features.alerts.title}
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
-                  Obra na rua, falta de água, campanha no posto de saúde. Você
-                  fica sabendo com antecedência, não com o problema na porta.
+                  {t.features.alerts.description}
                 </p>
               </div>
 
@@ -464,11 +430,10 @@ export default function Home() {
                   <MessageSquare className="size-6" />
                 </span>
                 <h3 className="mb-2.5 text-xl font-bold">
-                  Conversas de verdade
+                  {t.features.conversations.title}
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
-                  Pergunte, indique, combine. Como o grupo do bairro deveria
-                  ser: organizado por assunto e sem corrente de bom dia.
+                  {t.features.conversations.description}
                 </p>
               </div>
 
@@ -479,18 +444,16 @@ export default function Home() {
                     <ShoppingBag className="size-6" />
                   </span>
                   <h3 className="mb-2.5 text-2xl font-bold">
-                    O comércio da esquina, na palma da mão
+                    {t.features.commerce.title}
                   </h3>
                   <p className="leading-relaxed text-muted-foreground">
-                    Descubra a padaria nova, o mercado com promoção e a
-                    costureira que todo mundo indica. Quem vende perto de você
-                    ganha um canal direto com o bairro.
+                    {t.features.commerce.description}
                   </p>
                 </div>
                 <div className="mt-8 flex items-center gap-3 text-sm text-muted-foreground">
                   <Search className="size-4 text-primary" />
                   <span className="italic">
-                    &ldquo;pizzaria aberta agora perto de mim&rdquo;
+                    &ldquo;{t.features.commerce.searchExample}&rdquo;
                   </span>
                 </div>
               </div>
@@ -506,10 +469,10 @@ export default function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6">
             <div className="mb-14 max-w-2xl">
               <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">
-                Como funciona
+                {t.how.eyebrow}
               </p>
               <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-                Três passos e o bairro é seu
+                {t.how.title}
               </h2>
             </div>
             <div className="relative grid gap-10 md:grid-cols-3 md:gap-8">
@@ -517,10 +480,10 @@ export default function Home() {
                 aria-hidden
                 className="absolute top-7 right-[16%] left-[16%] hidden h-px bg-gradient-to-r from-primary/60 via-primary/30 to-primary/60 md:block"
               />
-              {steps.map((step) => (
-                <div key={step.number} className="relative">
+              {t.how.steps.map((step, i) => (
+                <div key={step.title} className="relative">
                   <span className="relative z-10 mb-5 flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-chart-2 font-heading text-xl font-bold text-primary-foreground shadow-lg shadow-primary/30">
-                    {step.number}
+                    {i + 1}
                   </span>
                   <h3 className="mb-2.5 text-xl font-bold">{step.title}</h3>
                   <p className="leading-relaxed text-muted-foreground">
@@ -542,30 +505,12 @@ export default function Home() {
             <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
               <Leaf className="size-10" />
               <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-                Seja o primeiro do seu bairro no Viicus
+                {t.waitlist.title}
               </h2>
               <p className="max-w-lg text-balance text-lg text-primary-foreground/85">
-                Vamos liberar o acesso por região, começando pelas listas mais
-                movimentadas. Garanta seu lugar — leva 10 segundos.
+                {t.waitlist.description}
               </p>
-              <div className="mt-2 flex w-full max-w-md flex-col gap-3 sm:flex-row">
-                <Input
-                  type="email"
-                  placeholder="seu@email.com"
-                  aria-label="Seu e-mail"
-                  className="h-13 flex-1 rounded-xl border-white/30 bg-white/95 text-base text-foreground placeholder:text-muted-foreground"
-                />
-                <Button
-                  size="lg"
-                  className="h-13 rounded-xl bg-foreground px-7 text-base text-background shadow-md hover:bg-foreground/90"
-                >
-                  Entrar na lista
-                  <ArrowRight />
-                </Button>
-              </div>
-              <p className="text-sm text-primary-foreground/70">
-                Sem spam. Só avisamos quando o Viicus chegar na sua região.
-              </p>
+              <WaitlistForm copy={t.waitlist} />
             </div>
           </div>
         </section>
@@ -576,59 +521,86 @@ export default function Home() {
         <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
           <div className="flex flex-col justify-between gap-10 md:flex-row">
             <div className="max-w-xs">
-              <Logo />
+              <Logo href={localePath(locale)} />
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Sua região. Sua comunidade. O jeito mais tranquilo de viver o
-                seu bairro.
+                {t.footer.tagline}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-10 text-sm sm:grid-cols-3">
               <div className="grid content-start gap-3">
-                <p className="font-heading font-bold">Produto</p>
+                <p className="font-heading font-bold">{t.footer.product}</p>
                 <a href="#recursos" className="text-muted-foreground transition-colors hover:text-primary">
-                  Recursos
+                  {t.nav.features}
                 </a>
                 <a href="#como-funciona" className="text-muted-foreground transition-colors hover:text-primary">
-                  Como funciona
+                  {t.nav.howItWorks}
                 </a>
                 <a href="#lista" className="text-muted-foreground transition-colors hover:text-primary">
-                  Lista de espera
+                  {t.footer.waitlist}
                 </a>
               </div>
               <div className="grid content-start gap-3">
-                <p className="font-heading font-bold">Comunidade</p>
+                <p className="font-heading font-bold">{t.footer.community}</p>
                 <a
                   href={`mailto:${CONTROLLER.email}`}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Fale com a gente
+                  {t.footer.contact}
                 </a>
               </div>
               <div className="grid content-start gap-3">
-                <p className="font-heading font-bold">Legal</p>
+                <p className="font-heading font-bold">{t.footer.legal}</p>
                 <Link
-                  href="/privacidade"
+                  href={localePath(locale, "/privacidade")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Privacidade
+                  {t.footer.privacy}
                 </Link>
                 <Link
-                  href="/termos"
+                  href={localePath(locale, "/termos")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Termos de uso
+                  {t.footer.terms}
                 </Link>
                 <Link
-                  href="/excluir-conta"
+                  href={localePath(locale, "/excluir-conta")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Excluir conta
+                  {t.footer.deleteAccount}
                 </Link>
               </div>
             </div>
           </div>
-          <div className="mt-12 border-t border-border/60 pt-6 text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Viicus. Todos os direitos reservados.
+          <div className="mt-12 flex flex-col gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              © {new Date().getFullYear()} Viicus. {t.footer.rights}
+            </span>
+            <nav
+              aria-label={t.footer.languagesLabel}
+              className="flex flex-wrap gap-x-4 gap-y-2"
+            >
+              {locales.map((availableLocale: Locale) =>
+                availableLocale === locale ? (
+                  <span
+                    key={availableLocale}
+                    lang={availableLocale}
+                    className="font-medium text-foreground"
+                  >
+                    {localeNames[availableLocale]}
+                  </span>
+                ) : (
+                  <Link
+                    key={availableLocale}
+                    href={localePath(availableLocale)}
+                    hrefLang={availableLocale}
+                    lang={availableLocale}
+                    className="transition-colors hover:text-primary"
+                  >
+                    {localeNames[availableLocale]}
+                  </Link>
+                )
+              )}
+            </nav>
           </div>
         </div>
       </footer>

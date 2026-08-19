@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -12,14 +11,15 @@ import {
 } from "@/components/legal";
 import { CONTROLLER, PRODUCT } from "@/lib/legal";
 
-export const metadata: Metadata = {
+export const meta = {
   title: "Termos de uso",
   description:
     "As regras de uso do Viicus: o que o serviço faz, o que ele não faz, o que você pode publicar e o que acontece quando as regras são quebradas.",
 };
 
 /**
- * Termos de uso.
+ * Termos de uso (pt-BR — o texto de referência; `en.tsx` e `es.tsx` são
+ * traduções dele e devem mudar junto).
  *
  * Dois pontos aqui não são formalidade e não devem ser suavizados numa
  * revisão futura:
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
  *   uma ocorrência formal, e prometer isso implicitamente criaria uma
  *   expectativa que nem nós nem o órgão controlamos.
  */
-export default function TermosPage() {
+export default function Content() {
   return (
     <LegalPage
       title="Termos de uso"

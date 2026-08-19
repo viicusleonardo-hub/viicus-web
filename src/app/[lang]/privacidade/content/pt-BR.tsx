@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -14,14 +13,15 @@ import {
 } from "@/components/legal";
 import { CONTROLLER } from "@/lib/legal";
 
-export const metadata: Metadata = {
+export const meta = {
   title: "Política de privacidade",
   description:
     "Quais dados o Viicus coleta, por que, o que fica visível para outras pessoas, por quanto tempo guardamos e como você exerce seus direitos.",
 };
 
 /**
- * Política de privacidade.
+ * Política de privacidade (pt-BR — o texto de referência; `en.tsx` e `es.tsx`
+ * são traduções dele e devem mudar junto).
  *
  * O texto descreve o comportamento REAL do sistema. Três pontos foram
  * verificados no código e não devem ser reescritos de memória:
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
  * cada troca de contrato, e detalhar mecanismo de segurança entrega mapa a
  * quem procura brecha.
  */
-export default function PrivacidadePage() {
+export default function Content() {
   return (
     <LegalPage
       title="Política de privacidade"
